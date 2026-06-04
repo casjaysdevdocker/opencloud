@@ -28,7 +28,7 @@ trap 'retVal=$?;if [ "$SERVICE_IS_RUNNING" != "yes" ] && [ -f "$SERVICE_PID_FILE
 # - - - - - - - - - - - - - - - - - - - - - - - - -
 SCRIPT_FILE="$0"
 SERVICE_NAME="collabora"
-SCRIPT_NAME="$(basename -- "$SCRIPT_FILE" 2>/dev/null)"
+SCRIPT_NAME="${SCRIPT_FILE##*/}"
 # - - - - - - - - - - - - - - - - - - - - - - - - -
 # Function to exit appropriately based on context
 __script_exit() {
@@ -89,8 +89,10 @@ RESET_ENV="no"
 WWW_ROOT_DIR="/usr/local/share/httpd/default"
 # - - - - - - - - - - - - - - - - - - - - - - - - -
 # Default predefined variables
-DATA_DIR="/data/collabora"   # set data directory
-CONF_DIR="/config/collabora" # set config directory
+# set data directory
+DATA_DIR="/data/collabora"
+# set config directory
+CONF_DIR="/config/collabora"
 # - - - - - - - - - - - - - - - - - - - - - - - - -
 # set the containers etc directory
 ETC_DIR="/etc/collabora"
@@ -98,9 +100,12 @@ ETC_DIR="/etc/collabora"
 # set the var dir
 VAR_DIR=""
 # - - - - - - - - - - - - - - - - - - - - - - - - -
-TMP_DIR="/tmp/collabora"       # set the temp dir
-RUN_DIR="/run/collabora"       # set scripts pid dir
-LOG_DIR="/data/logs/collabora" # set log directory
+# set the temp dir
+TMP_DIR="/tmp/collabora"
+# set scripts pid dir
+RUN_DIR="/run/collabora"
+# set log directory
+LOG_DIR="/data/logs/collabora"
 # - - - - - - - - - - - - - - - - - - - - - - - - -
 # Set the working dir
 WORK_DIR=""
@@ -109,25 +114,34 @@ WORK_DIR=""
 SERVICE_PORT="9980"
 # - - - - - - - - - - - - - - - - - - - - - - - - -
 # User to use to launch service - IE: postgres
-RUNAS_USER="cool" # normally root
+# normally root
+RUNAS_USER="cool"
 # - - - - - - - - - - - - - - - - - - - - - - - - -
 # User and group in which the service switches to - IE: nginx,apache,mysql,postgres
-SERVICE_USER="cool"  # execute command as another user
-SERVICE_GROUP="cool" # Set the service group
+# execute command as another user
+SERVICE_USER="cool"
+# Set the service group
+SERVICE_GROUP="cool"
 # - - - - - - - - - - - - - - - - - - - - - - - - -
 # Set password length
 RANDOM_PASS_USER=""
 RANDOM_PASS_ROOT=""
 # - - - - - - - - - - - - - - - - - - - - - - - - -
 # Set user and group ID
-SERVICE_UID="0" # set the user id
-SERVICE_GID="0" # set the group id
+# set the user id
+SERVICE_UID="0"
+# set the group id
+SERVICE_GID="0"
 # - - - - - - - - - - - - - - - - - - - - - - - - -
 # execute command variables - keep single quotes variables will be expanded later
-EXEC_CMD_BIN='coolwsd' # command to execute
-EXEC_CMD_ARGS='--o:ssl.enable=false --o:ssl.termination=true --o:net.listen=any --o:net.post_allow.host[0]=.* --o:storage.wopi.host[0]=.* --o:storage.wopi[@allow]=true --o:admin_console.enable=false --o:logging.level=warning --o:server_name=${COLLABORA_SERVER_NAME:-collabora.${DOMAIN:-$HOSTNAME}}'                          # command arguments
-EXEC_PRE_SCRIPT=''                        # execute script before
-SERVICE_USES_PID=''                       # Set to no if the service is not running otherwise leave blank
+# command to execute
+EXEC_CMD_BIN='coolwsd'
+# command arguments
+EXEC_CMD_ARGS='--o:ssl.enable=false --o:ssl.termination=true --o:net.listen=any --o:net.post_allow.host[0]=.* --o:storage.wopi.host[0]=.* --o:storage.wopi[@allow]=true --o:admin_console.enable=false --o:logging.level=warning --o:server_name=${COLLABORA_SERVER_NAME:-collabora.${DOMAIN:-$HOSTNAME}}'
+# execute script before
+EXEC_PRE_SCRIPT=''
+# Set to no if the service is not running otherwise leave blank
+SERVICE_USES_PID=''
 # - - - - - - - - - - - - - - - - - - - - - - - - -
 # Is this service a web server
 IS_WEB_SERVER="no"
@@ -155,20 +169,28 @@ IP4_ADDRESS="$(__get_ip4)"
 IP6_ADDRESS="$(__get_ip6)"
 # - - - - - - - - - - - - - - - - - - - - - - - - -
 # Where to save passwords to
-ROOT_FILE_PREFIX="/config/secure/auth/root" # directory to save username/password for root user
-USER_FILE_PREFIX="/config/secure/auth/user" # directory to save username/password for normal user
+# directory to save username/password for root user
+ROOT_FILE_PREFIX="/config/secure/auth/root"
+# directory to save username/password for normal user
+USER_FILE_PREFIX="/config/secure/auth/user"
 # - - - - - - - - - - - - - - - - - - - - - - - - -
 # root/admin user info password/random]
-root_user_name="${COLLABORA_ROOT_USER_NAME:-}" # root user name
-root_user_pass="${COLLABORA_ROOT_PASS_WORD:-}" # root user password
+# root user name
+root_user_name="${COLLABORA_ROOT_USER_NAME:-}"
+# root user password
+root_user_pass="${COLLABORA_ROOT_PASS_WORD:-}"
 # - - - - - - - - - - - - - - - - - - - - - - - - -
 # Normal user info [password/random]
-user_name="${COLLABORA_USER_NAME:-}"      # normal user name
-user_pass="${COLLABORA_USER_PASS_WORD:-}" # normal user password
+# normal user name
+user_name="${COLLABORA_USER_NAME:-}"
+# normal user password
+user_pass="${COLLABORA_USER_PASS_WORD:-}"
 # - - - - - - - - - - - - - - - - - - - - - - - - -
 # Load variables from config
-[ -f "/config/env/collabora.script.sh" ] && . "/config/env/collabora.script.sh" # Generated by my dockermgr script
-[ -f "/config/env/collabora.sh" ] && . "/config/env/collabora.sh"               # Overwrite the variabes
+# Generated by my dockermgr script
+[ -f "/config/env/collabora.script.sh" ] && . "/config/env/collabora.script.sh"
+# Overwrite the variabes
+[ -f "/config/env/collabora.sh" ] && . "/config/env/collabora.sh"
 # - - - - - - - - - - - - - - - - - - - - - - - - -
 # Additional predefined variables
 
@@ -239,8 +261,10 @@ __execute_prerun() {
 __run_pre_execute_checks() {
   # Set variables
   local exitStatus=0
-  local pre_execute_checks_MessageST="Running preexecute check for $SERVICE_NAME"   # message to show at start
-  local pre_execute_checks_MessageEnd="Finished preexecute check for $SERVICE_NAME" # message to show at completion
+  # message to show at start
+  local pre_execute_checks_MessageST="Running preexecute check for $SERVICE_NAME"
+  # message to show at completion
+  local pre_execute_checks_MessageEnd="Finished preexecute check for $SERVICE_NAME"
   __banner "$pre_execute_checks_MessageST"
   # Put command to execute in parentheses
   {
@@ -263,8 +287,10 @@ __run_pre_execute_checks() {
 # - - - - - - - - - - - - - - - - - - - - - - - - -
 # use this function to update config files - IE: change port
 __update_conf_files() {
-  local exitCode=0                                               # default exit code
-  local sysname="${SERVER_NAME:-${FULL_DOMAIN_NAME:-$HOSTNAME}}" # set hostname
+  # default exit code
+  local exitCode=0
+  # set hostname
+  local sysname="${SERVER_NAME:-${FULL_DOMAIN_NAME:-$HOSTNAME}}"
   # - - - - - - - - - - - - - - - - - - - - - - - - -
   # delete files
   #__rm ""
@@ -289,8 +315,10 @@ __update_conf_files() {
 # - - - - - - - - - - - - - - - - - - - - - - - - -
 # function to run before executing
 __pre_execute() {
-  local exitCode=0                                               # default exit code
-  local sysname="${SERVER_NAME:-${FULL_DOMAIN_NAME:-$HOSTNAME}}" # set hostname
+  # default exit code
+  local exitCode=0
+  # set hostname
+  local sysname="${SERVER_NAME:-${FULL_DOMAIN_NAME:-$HOSTNAME}}"
   # execute if directories is empty
   # __is_dir_empty "$CONF_DIR" && true
   # - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -309,12 +337,18 @@ __pre_execute() {
 # - - - - - - - - - - - - - - - - - - - - - - - - -
 # function to run after executing
 __post_execute() {
-  local pid=""                                                    # init pid var
-  local retVal=0                                                  # set default exit code
-  local ctime=${POST_EXECUTE_WAIT_TIME:-1}                        # how long to wait before executing
-  local waitTime=$((ctime * 60))                                  # convert minutes to seconds
-  local postMessageST="Running post commands for $SERVICE_NAME"   # message to show at start
-  local postMessageEnd="Finished post commands for $SERVICE_NAME" # message to show at completion
+  # init pid var
+  local pid=""
+  # set default exit code
+  local retVal=0
+  # how long to wait before executing
+  local ctime=${POST_EXECUTE_WAIT_TIME:-1}
+  # convert minutes to seconds
+  local waitTime=$((ctime * 60))
+  # message to show at start
+  local postMessageST="Running post commands for $SERVICE_NAME"
+  # message to show at completion
+  local postMessageEnd="Finished post commands for $SERVICE_NAME"
   # wait
   sleep $waitTime
   # execute commands after waiting
@@ -349,7 +383,8 @@ __pre_message() {
 # use this function to setup ssl support
 __update_ssl_conf() {
   local exitCode=0
-  local sysname="${SERVER_NAME:-${FULL_DOMAIN_NAME:-$HOSTNAME}}" # set hostname
+  # set hostname
+  local sysname="${SERVER_NAME:-${FULL_DOMAIN_NAME:-$HOSTNAME}}"
   # execute commands
 
   # allow custom functions
@@ -404,17 +439,28 @@ EOF
 # script to start server
 __run_start_script() {
   local runExitCode=0
-  local workdir="$(eval echo "${WORK_DIR:-}")"                   # expand variables
-  local cmd="$(eval echo "${EXEC_CMD_BIN:-}")"                   # expand variables
-  local args="$(eval echo "${EXEC_CMD_ARGS:-}")"                 # expand variables
-  local name="$(eval echo "${EXEC_CMD_NAME:-}")"                 # expand variables
-  local pre="$(eval echo "${EXEC_PRE_SCRIPT:-}")"                # expand variables
-  local extra_env="$(eval echo "${CMD_ENV//,/ }")"               # expand variables
-  local lc_type="$(eval echo "${LANG:-${LC_ALL:-$LC_CTYPE}}")"   # expand variables
-  local home="$(eval echo "${workdir//\/root/\/tmp\/docker}")"   # expand variables
-  local path="$(eval echo "$PATH")"                              # expand variables
-  local message="$(eval echo "")"                                # expand variables
-  local sysname="${SERVER_NAME:-${FULL_DOMAIN_NAME:-$HOSTNAME}}" # set hostname
+  # expand variables
+  local workdir="$(eval echo "${WORK_DIR:-}")"
+  # expand variables
+  local cmd="$(eval echo "${EXEC_CMD_BIN:-}")"
+  # expand variables
+  local args="$(eval echo "${EXEC_CMD_ARGS:-}")"
+  # expand variables
+  local name="$(eval echo "${EXEC_CMD_NAME:-}")"
+  # expand variables
+  local pre="$(eval echo "${EXEC_PRE_SCRIPT:-}")"
+  # expand variables
+  local extra_env="$(eval echo "${CMD_ENV//,/ }")"
+  # expand variables
+  local lc_type="$(eval echo "${LANG:-${LC_ALL:-$LC_CTYPE}}")"
+  # expand variables
+  local home="$(eval echo "${workdir//\/root/\/tmp\/docker}")"
+  # expand variables
+  local path="$(eval echo "$PATH")"
+  # expand variables
+  local message="$(eval echo "")"
+  # set hostname
+  local sysname="${SERVER_NAME:-${FULL_DOMAIN_NAME:-$HOSTNAME}}"
   [ -f "$CONF_DIR/$SERVICE_NAME.exec_cmd.sh" ] && . "$CONF_DIR/$SERVICE_NAME.exec_cmd.sh"
   #
   if [ -z "$cmd" ]; then
@@ -536,13 +582,19 @@ __run_secure_function() {
 __file_exists_with_content "/config/env/${SERVICE_NAME:-$SCRIPT_NAME}.sh" && . "/config/env/${SERVICE_NAME:-$SCRIPT_NAME}.sh"
 __file_exists_with_content "/config/env/${SERVICE_NAME:-$SCRIPT_NAME}.local.sh" && . "/config/env/${SERVICE_NAME:-$SCRIPT_NAME}.local.sh"
 # - - - - - - - - - - - - - - - - - - - - - - - - -
-SERVICE_EXIT_CODE=0 # default exit code
+# default exit code
+SERVICE_EXIT_CODE=0
 # application specific
-EXEC_CMD_NAME="$(basename -- "$EXEC_CMD_BIN")"                             # set the binary name
-SERVICE_PID_FILE="/run/init.d/$EXEC_CMD_NAME.pid"                          # set the pid file location
-SERVICE_PID_NUMBER="$(__pgrep "$EXEC_CMD_NAME" || echo '')"                # check if running
-EXEC_CMD_BIN="$(type -P "$EXEC_CMD_BIN" || echo "$EXEC_CMD_BIN")"          # set full path
-EXEC_PRE_SCRIPT="$(type -P "$EXEC_PRE_SCRIPT" || echo "$EXEC_PRE_SCRIPT")" # set full path
+# set the binary name
+EXEC_CMD_NAME="${EXEC_CMD_BIN##*/}"
+# set the pid file location
+SERVICE_PID_FILE="/run/init.d/$EXEC_CMD_NAME.pid"
+# check if running
+SERVICE_PID_NUMBER="$(__pgrep "$EXEC_CMD_NAME" || echo '')"
+# set full path
+EXEC_CMD_BIN="$(type -P "$EXEC_CMD_BIN" || echo "$EXEC_CMD_BIN")"
+# set full path
+EXEC_PRE_SCRIPT="$(type -P "$EXEC_PRE_SCRIPT" || echo "$EXEC_PRE_SCRIPT")"
 # - - - - - - - - - - - - - - - - - - - - - - - - -
 # Only run check
 __check_service "$1" && SERVICE_IS_RUNNING=yes || SERVICE_IS_RUNNING="no"
